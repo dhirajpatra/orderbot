@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+  APP_SETTINGS: base
+  AWS_ACCESS_KEY_ID: AKIASOCXYWM7H2BESCNS
+  AWS_REGION: us-west-2
+  AWS_SECRET_ACCCESS_KEY: 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
+  DEBUG: "True"
+  FLASK_ENV: development
+  JWT_SECRET_KEY: fds344h$$fds@fs
+  ORDERBOT_API_KEY_SECRET: IrmbEIy4bP9vYEhv6ectPzz7bmwPZGf8
+  ORDERBOT_API_KEY_SID: SKfad401c97218edc90807bb6124b89758
+  ORIGINS: '*'
+  SECRET_KEY: 5g@z
+  TWILIO_ACCOUNT_SID: ACa385f1927e96a68a966f1d62bcb00dc4
+  TWILIO_AUTH_TOKEN: 4140761bcdc2ef176adca098fa75c35d
+  USE_SSL: "1"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db-prod-env
+  name: env

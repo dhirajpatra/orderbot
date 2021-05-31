@@ -1,0 +1,18 @@
+orderbot.bizhive@gmail.com
+
+[compute]
+region = us-central1
+zone = us-central1-a
+[core]
+account = orderbot.bizhive@gmail.com
+disable_usage_reporting = False
+project = tribal-radar-305004
+
+Your active configuration is: [default]
+
+ssh key = ~/.ssh/gcloud-orderbot-ssh-key
+ssh_key_pub = ~/.ssh/gcloud-orderbot-ssh-key.pub
+
+command to connect main account in instance:
+gcloud beta compute ssh orderbot_bizhive@orderbot-instance1 --zone "us-central1-a" --project "tribal-radar-305004"
+
