@@ -1,0 +1,3 @@
+CREATE USER pgroot WITH PASSWORD 'pgsqladmin';
+CREATE DATABASE orderbot;
+GRANT ALL PRIVILEGES ON DATABASE orderbot TO pgroot;

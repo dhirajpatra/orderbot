@@ -1,0 +1,118 @@
+version: "3.4"
+services:
+
+  # Nginx reverse proxy
+  nginx-prod:
+    container_name: nginx-prod
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      # - 5000:80
+      - 80:80 # for production
+      - 443:443
+    volumes:
+      - ./nginx/public_html:/public_html
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./certbot/conf/:/etc/nginx/ssl/
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    # depends_on:
+    #   - web
+    # network_mode: "host"
+    networks:
+      - nginx
+
+  # certbot:
+  #   image: certbot/certbot
+  #   volumes:
+  #     - ./certbot/conf/:/etc/letsencrypt
+  #     - ./certbot/logs/:/var/log/letsencrypt
+  #     - ./certbot/data:/usr/share/nginx/html/letsencrypt
+
+  web:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: web
+    image: orderbot
+    restart: always
+    env_file:
+      - ./.env
+    # environment:
+    #   SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://pgroot:pgsqladmin@db-prod:5432/orderbot
+    #   REDIS_URL: "redis://redis:6379/0"
+      # REDIS_URL: "redis://:password@localhost:6379/0"
+    ports:
+     - "5000:5000"
+    # expose:
+    #   - 5000
+    depends_on:
+      - redis
+      # - db-prod
+    # volumes line used for hot code reloading
+    volumes: ['./api:/api', './migrations:/api/migrations', 'static_volume:/static']
+    # network_mode: "host"
+    networks:
+      - nginx
+
+  # worker:
+  #   container_name: worker
+  #   image: orderbot
+  #   restart: always
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://pgroot:pgsqladmin@db-prod:5432/orderbot
+  #     REDIS_URL: "redis://redis:6379/0"
+  #     # REDIS_URL: "redis://:password@localhost:6379/0"
+  #   depends_on:
+  #     - redis
+  #     - db-prod
+  #   command: rqworker --name worker --url redis://redis:6379/0
+  #   volumes: ['./api:/api', 'static_volume:/static']
+  #   # network_mode: "host"
+
+  # Postgresql database
+  # db-prod:
+  #   container_name: "db-prod"
+  #   image: postgres:10.14-alpine
+  #   restart: always
+  #   volumes:
+  #     - postgres_data_prod:/var/lib/postgresql/data/
+  #   environment:
+  #     - POSTGRES_HOST_AUTH_METHOD=password
+  #     - POSTGRES_USER=pgroot
+  #     - POSTGRES_PASSWORD=pgsqladmin
+  #     - POSTGRES_DB=orderbot
+  #   # server need to use expose to secure this
+  #   # expose:
+  #   #   - "5432"
+  #   # using ports to connect to client eg. PgAdmin it will be commented in poduction server
+  #   ports:
+  #     - 5432:5432
+  #   env_file:
+  #     - ./.env
+  #   # network_mode: "host"
+
+  redis:
+    container_name: "redis"
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - './redis.conf:/usr/local/etc/redis/redis.conf'
+    expose:
+      - 6379
+    # network_mode: "host"
+    networks:
+      - nginx
+
+volumes: 
+  static_volume:
+  postgres_data_prod:
+  migrations:
+
+networks:
+  nginx:
+    external: true

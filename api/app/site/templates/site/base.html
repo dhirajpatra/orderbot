@@ -1,0 +1,85 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}OrderBot{% endblock %}
+
+{% block styles -%}
+{{super()}}
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+{% endblock styles %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('site.index') }}">Home</a>
+            <a class="navbar-brand" href="{{ url_for('site.users') }}">Users</a>
+        
+            {% if g.user %}
+              <span>{{ g.user['username'] }}</span>
+              <a class="navbar-brand" href="{{ url_for('site.apis') }}">API</a>
+              <a class="navbar-brand" href="{{ url_for('message.index') }}">Messages</a>
+              <a class="navbar-brand" href="{{ url_for('site.catalogue') }}">Catalogue</a>
+              <a class="navbar-brand" href="{{ url_for('auth.logout') }}">Log Out</a>
+            {% else %}
+              <a class="navbar-brand" href="{{ url_for('auth.register') }}">Register</a>
+              <a class="navbar-brand" href="{{ url_for('auth.login') }}">Log In</a>
+            {% endif %}
+        
+        </div>
+        
+    </nav>
+{% endblock %}
+
+
+<div class="container-fluid">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+
+  {% block content %}
+  
+    {% block sidebar %}
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    {% endblock %}
+
+    
+    {% block footer -%}
+    {{ super() }}
+    <footer>&copy; 2020 BizHive OU</footer>
+    {% endblock footer %}
+  {% endblock %}
+
+</div>
+
+{% block scripts %}
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+
+
+{% endblock %}
+
+
+
+</body>
+
+</html>

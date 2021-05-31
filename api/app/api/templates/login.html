@@ -1,0 +1,23 @@
+{% extends 'site/base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        {% if error != None %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        <form method="post">
+            <label for="username">Username</label>
+            <input class="form-control" name="username" id="username" required>
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password" id="password" required>
+            <input type="submit" class="btn btn-primary" value="Log In">
+          </form>
+    </div>
+{% endblock %}

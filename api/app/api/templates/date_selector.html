@@ -1,0 +1,46 @@
+{% extends 'site/base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Select Dates{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        {% if error != None %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        <form>
+  <div class="form-group">
+    <label for="date_from">From Date</label>
+    <input name='date_from' type='date' value='' class='date_select glyphicon glyphicon-calendar'/>
+  </div>
+  <div class="form-group">
+    <label for="date_to">To Date</label>
+    <input name='date_to' type='date' value='' class='date_select glyphicon glyphicon-calendar'/>
+  </div>
+  <div class="form-group form-check">
+    <label class="listing-search__label">Guests</label>
+        <select name="guests" id="guests">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option selected="selected" value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+</select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+    </div>
+{% endblock %}

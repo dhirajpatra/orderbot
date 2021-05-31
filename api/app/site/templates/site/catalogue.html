@@ -1,0 +1,333 @@
+{% extends "site/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if error != None %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        
+        {% set j = 0 %}
+        <form action="{{ url_for('site.catalogue_update') }}" method = "POST" 
+         enctype = "multipart/form-data">
+            <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}"> 
+            <input type="hidden" name="counter" id="counter" value="{{ j }}">
+            <div class="row">            
+                <label for="phone_number">Phone</label>
+                <input class="form-control" name="phone_number" id="phone_number" value="{{ user.phone_number }}" readonly>
+            </div>
+            <div class="row">            
+                <label for="phone_number_encrypted">Phone encrypted</label>
+                <input class="form-control" name="phone_number_encrypted" id="phone_number_encrypted" value="{{ user.phone_number_encrypted }}" readonly>
+            </div>
+            <div class="row">
+                <label for="email">Email</label>
+                <input class="form-control" name="email" id="email" value="{{ user.email }}" readonly>
+            </div>
+
+            {% set i = namespace(count=0) %}
+            {% for catalogue in user_catalogue %}
+                {% set i.count = i.count + 1 %}
+
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ i.count }}" id="catalogue_image_{{ i.count }}"> <small>[upload each image with some detail in image]</small><br>
+                    {{ catalogue.catalogue_image }}
+                    <img src="{{ show_catalogue(catalogue.catalogue_image) }}" width="200" height="400">
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ i.count }}" id="_{{ i.count }}" value="{{ catalogue.property_id }}">
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ i.count }}" id="property_name_{{ i.count }}" value="{{ catalogue.property_name }}">
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ i.count }}" id="id_ru_{{ i.count }}" value="{{ catalogue.id_ru }}">
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ i.count }}" id="link_{{ i.count }}" value="{{ catalogue.link }}">
+                </div>
+                <div class="row">
+                    <label for="price">Price Starts From</label>
+                    <input type="text" class="form-control" name="price_{{ i.count }}" id="price_{{ i.count }}" value="{{ catalogue.price }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ i.count }}" id="currency_{{ i.count }}">
+                        <option value="EUR" {% if catalogue.currency == "EUR" %}selected{% endif %}>€</option>
+                        <option value="INR" {% if catalogue.currency == "INR" %}selected{% endif %}>₹</option>
+                        <option value="USD" {% if catalogue.currency == "USD" %}selected{% endif %}>$</option>
+                    </select>
+                </div>
+                <hr>
+
+            {% endfor %}
+
+            {% set j = i.count + 1 %}
+            <div class="hideshow"><h4>click here to add more</h4></div>
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% set j = j + 1 %}
+            <div class="add_more" style="display:none;">
+                <div class="row">
+                    <label for="catalogue_image">Catalogue Image</label>
+                    <input type="file" class="form-control" name="catalogue_image_{{ j }}" id="catalogue_image_{{ j }}"> <small>[upload each image with some detail in image]</small><br>
+                </div>
+                <div class="row">
+                    <label for="property_id">Property Id</label>
+                    <input type="text" class="form-control" name="property_id_{{ j }}" id="property_id_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="property_name">Property Name</label>
+                    <input type="text" class="form-control" name="property_name_{{ j }}" id="property_name_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="id_ru">ID-RU</label>
+                    <input type="text" class="form-control" name="id_ru_{{ j }}" id="id_ru_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link_{{ j }}" id="link_{{ j }}" >
+                </div>
+                <div class="row">
+                    <label for="price">Price Starting  Form</label>
+                    <input type="text" class="form-control" name="price_{{ j }}" id="price_{{ j }}">
+                </div>
+                <div class="row">
+                    <label for="currency">Currency</label>
+                    <select class="form-control" name="currency_{{ j }}" id="currency_{{ j }}">
+                        <option value="EUR" select>€</option>
+                        <option value="INR" >₹</option>
+                        <option value="USD" >$</option>
+                    </select>
+                </div>
+            </div>                
+            <br>
+            
+            <div class="row">
+                <input type="submit" class="btn btn-primary" value="Update" onclick="document.getElementById('counter').value = {{ j }};">            
+            </div>
+        </form>
+    </div>
+    
+{% endblock %}

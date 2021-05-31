@@ -1,0 +1,29 @@
+{% extends 'site/base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form id="frmregister" name="frmregister" class="validatedForm" method="post" action="/register">
+      <div class="form-group">
+        <label for="phone_number">Phone Number [with country code]</label>
+        <input type="number" name="phone_number" id="phone_number" required> <small>it will be used as username</small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+        <label for="password">Confirm Your Password</label>
+        <input type="password" name="password_confirm" id="password_confirm" required>
+      </div>
+      <div class="form-group">
+        <input id="btnregister" type="submit" class="btn btn-primary" value="Register">
+      </div>
+    </form>
+  </div>
+{% endblock %}

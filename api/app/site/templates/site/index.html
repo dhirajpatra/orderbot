@@ -1,0 +1,83 @@
+{% extends "site/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if error != None %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        
+        <form name="frmuser" id="frmuser" action="{{ url_for('site.user_update', id=user.id) }}" method="post">
+            <div class="row">            
+                <label for="phone_number">Phone</label>
+                <input class="form-control" name="phone_number" id="phone_number" value="{{ user.phone_number }}" readonly>
+            </div>
+            <div class="row">            
+                <label for="phone_number_encrypted">Phone encrypted</label>
+                <input class="form-control" name="phone_number_encrypted" id="phone_number_encrypted" value="{{ user.phone_number_encrypted }}" readonly>
+            </div>
+            <div class="row">
+                <label for="email">Email</label>
+                <input class="form-control" name="email" id="email" value="{{ user.email }}" readonly>
+            </div>
+            <div class="row">
+                <label for="hook">Hook</label>
+                <input class="form-control" name="hook" id="hook" value="{{ user.hook }}" readonly> <small>[it may stop working until setup done the changes]</small>
+            </div>
+            <div class="row">
+                <label for="welcome_msg">Welcome Message</label>
+                <input class="form-control" name="welcome_msg" id="welcome_msg" value="{{ user.welcome_msg }}" > <small>[How to welcome customer]</small>
+            </div>
+            <div class="row">
+                <label for="type_of_business">Type Of Business</label>
+                <select class="form-control" name="type_of_business" id="type_of_business">
+                    <option value="1" {% if user.type_of_business == 1 %}selected{% endif %}>Room Booking</option>
+                    <option value="2" {% if user.type_of_business == 2 %}selected{% endif %}>Food</option>
+                    <option value="3" {% if user.type_of_business == 3 %}selected{% endif %}>Service</option>
+                </select>
+            </div>
+            <div class="row">
+                <label for="api_company">API Company</label>
+                <select class="form-control" name="api_company" id="api_company">
+                    {% for api_company in api_companies %}
+                        {% if api_company.id == api_details.api_company_id %}
+                            <option value="{{ api_company.id }}" selected>{{ api_company.comapny_name|upper }}</option>
+                        {% else %}
+                            <option value="{{ api_company.id }}">{{ api_company.comapny_name|upper }}</option>
+                        {% endif %}
+                    {% endfor %}
+                        <option value="">other</option>
+                </select>
+            </div>
+            <div class="row">
+                <label for="api_key">API Key</label>
+                <input class="form-control" name="api_key" id="api_key" value="{{ api_details.key }}" >
+            </div>
+            <div class="row">
+                <label for="api_username">API Username</label>
+                <input class="form-control" name="api_username" id="api_username" value="{{ api_details.username }}" >
+            </div>
+            <div class="row">
+                <label for="api_password">API Password</label>
+                <input class="form-control" name="api_password" id="api_password" value="{{ api_details.password }}" >
+            </div>
+            <div class="row">
+                <label for="api_host">Host / Main URL</label>
+                <input class="form-control" name="api_host" id="api_host" value="{{ api_details.host }}" >
+            </div>
+            <br>
+            <div class="row">
+                <label for="bot_token">Bot Token</label>
+                <input class="form-control" name="bot_token" id="bot_token" value="{{ user.bot_token }}" >
+            </div>
+            <br>
+            <div class="row">
+                <input type="submit" class="btn btn-primary" value="Update">            
+            </div>
+        </form>
+    </div>
+    
+{% endblock %}

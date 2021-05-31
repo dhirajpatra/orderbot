@@ -1,0 +1,43 @@
+blinker==1.4
+coverage==4.3.4
+Flask==1.1.1
+# boto==2.49.0
+# boto3==1.15.17
+# botocore==1.18.17
+pycurl==7.43.0.5 
+Flask-Bootstrap==3.3.7.1
+Flask-SQLAlchemy==2.1
+Flask-WTF==0.13.1
+ipython==5.1.
+werkzeug==0.16.1
+psycopg2-binary 
+flask-migrate 
+flask-script 
+flask_marshmallow==0.14.0 
+marshmallow_sqlalchemy
+#flask-bcrypt
+pyjwt
+Flask-Script
+certifi==2019.9.11
+chardet==3.0.4
+Click==7.0
+idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.10.3
+MarkupSafe==1.1.1
+PyJWT==1.7.1
+pytz==2019.3
+requests==2.22.0
+six==1.13.0
+twilio==6.33.1
+urllib3==1.25.7
+# tinydb==4.3.0
+beautifulsoup4==4.8.2 
+nltk==3.4.5
+rq==1.2.2
+flask-redis
+# chatterbot>=1.0.0
+# chatterbot-corpus>=1.2.0
+# spacy
+python-telegram-bot
+google_trans_new

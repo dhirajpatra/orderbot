@@ -1,0 +1,61 @@
+{% extends "site/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if error != None %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        <form name="frmuser" id="frmuser" action="{{ url_for('site.user_update', id=user.id) }}" method="post">            
+            <div class="row">
+                <label for="api_key">API Key</label>
+                <input class="form-control" name="api_key" id="api_key" value="{{ api_details.key }}" readonly>
+            </div>
+            <div class="row">
+                <label for="api_username">API Username</label>
+                <input class="form-control" name="api_username" id="api_username" value="{{ api_details.username }}" readonly>
+            </div>
+            <div class="row">
+                <label for="api_password">API Password</label>
+                <input class="form-control" name="api_password" id="api_password" value="{{ api_details.password }}" readonly>
+            </div>
+            <div class="row">
+                <label for="api_host">Host / Main URL</label>
+                <input class="form-control" name="api_host" id="api_host" value="{{ api_details.host }}" readonly>
+            </div>
+            {% for api_url in api_urls %}
+    
+                {{ loop.index }}
+
+                <div class="row">
+                    <label for="api_name">API Name</label>
+                    <input type="text" class="form-control" name="api_name_{{ loop.index }}" id="api_name_{{ loop.index }}" value="{{ api_url.api_name }}">
+                </div>
+                <div class="row">
+                    <label for="requirement_header">Method</label>
+                    <input type="text" class="form-control" name="requirement_header_{{ loop.index }}" id="requirement_header_{{ loop.index }}" value="{{ api_url.method }}">
+                </div>
+                <div class="row">
+                    <label for="requirement_header">Header</label>
+                    <textarea class="form-control" rows="2" cols="500" name="requirement_header_{{ loop.index }}" id="requirement_header_{{ loop.index }}">{{ api_url.requirement_header }}</textarea>
+                </div>
+                <div class="row">
+                    <label for="requirement_body">Body</label>
+                    <textarea class="form-control" rows="10" cols="500" name="requirement_body_{{ loop.index }}" id="requirement_body_{{ loop.index }}" >{{ api_url.requirement_body }}</textarea>
+                </div>
+                <div class="row">
+                    <label for="requirement_response">Response</label>
+                    <textarea class="form-control" rows="10" cols="500" name="requirement_response_{{ loop.index }}" id="requirement_response_{{ loop.index }}" >{{ api_url.requirement_response }}</textarea>
+                </div>
+            {% endfor %}
+            <br>
+            
+            <div class="row">
+                <input type="submit" class="btn btn-primary" value="Update">            
+            </div>
+        </form>
+    </div>
+{% endblock %}
